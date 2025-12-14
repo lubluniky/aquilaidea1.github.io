@@ -288,6 +288,46 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
         }
+
+        /* Feature Grid in Executive Summary */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        .feature-chip {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .feature-chip:hover {
+            border-color: var(--accent-blue);
+            color: #fff;
+            background: rgba(0, 243, 255, 0.05);
+        }
+
+        .feature-chip.new {
+            border-color: var(--accent-purple);
+            color: #fff;
+            background: rgba(189, 0, 255, 0.05);
+        }
+
+        .dot {
+            width: 6px; height: 6px; border-radius: 50%; margin-right: 8px;
+            background: #444;
+        }
+        .feature-chip:hover .dot { background: var(--accent-blue); }
+        .feature-chip.new .dot { background: var(--accent-purple); box-shadow: 0 0 5px var(--accent-purple); }
     </style>
 </head>
 <body>
@@ -314,10 +354,10 @@
                     <div class="tech-detail" style="border-left-color: var(--accent-blue); padding: 20px; display: flex; flex-direction: column;">
                         <div style="color:var(--accent-blue); margin-bottom:10px; font-weight:bold; letter-spacing:0.1em; font-size: 1rem;">SPEED</div>
                         <p style="margin-bottom: 15px; font-size: 0.9rem; color: #ccc; line-height: 1.5;">
-                            <strong>Зачем:</strong> Веб-интерфейс имеет задержку 500ms+ из-за React-рендеринга и публичных RPC. В моменты волатильности (новость, дамп) это делает торговлю неэффективной.
+                            Веб-интерфейс имеет задержку 500ms+. В моменты волатильности это делает торговлю неэффективной.
                         </p>
                         <p style="margin: 0; font-size: 0.85rem; color: #888; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: auto;">
-                            <strong>Как (Engine):</strong> Rust-ядро без Garbage Collection. Прямой WebSocket (tokio) к CLOB API. Бинарная Zero-copy десериализация (rkyv) вместо медленного JSON.
+                            <strong>Engine:</strong> Rust-ядро (Tokio), Zero-copy deserialization, CLOB WebSocket.
                         </p>
                     </div>
 
@@ -325,10 +365,10 @@
                     <div class="tech-detail" style="border-left-color: var(--accent-green); padding: 20px; display: flex; flex-direction: column;">
                         <div style="color:var(--accent-green); margin-bottom:10px; font-weight:bold; letter-spacing:0.1em; font-size: 1rem;">VISIBILITY</div>
                         <p style="margin-bottom: 15px; font-size: 0.9rem; color: #ccc; line-height: 1.5;">
-                            <strong>Зачем:</strong> До 40% ликвидности скрыто в "обратных" стаканах (продажа NO вместо покупки YES), которых нет в стандартном UI. Трейдеры не видят реальной глубины рынка.
+                            40% ликвидности скрыто в "обратных" стаканах. Трейдеры не видят реальной глубины.
                         </p>
                         <p style="margin: 0; font-size: 0.85rem; color: #888; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: auto;">
-                            <strong>Как (Math):</strong> Синтез стакана: <code>Bid_YES = 1 - Ask_NO</code>. Агрегация всех тиков для расчета OFI (Order Flow Imbalance) для детекции набора позиций китами.
+                            <strong>Math:</strong> Synthetic Orderbook, OFI (Order Flow Imbalance), Whale Walls.
                         </p>
                     </div>
 
@@ -336,13 +376,33 @@
                     <div class="tech-detail" style="border-left-color: var(--accent-purple); padding: 20px; display: flex; flex-direction: column;">
                         <div style="color:var(--accent-purple); margin-bottom:10px; font-weight:bold; letter-spacing:0.1em; font-size: 1rem;">EXECUTION</div>
                         <p style="margin-bottom: 15px; font-size: 0.9rem; color: #ccc; line-height: 1.5;">
-                            <strong>Зачем:</strong> Покупка "по маркету" на $50k вызывает проскальзывание на 5-10%. Ручной арбитраж (CTF Mint/Redeem) невозможен из-за ботов-конкурентов.
+                            Ручной арбитраж невозможен из-за ботов. Крупные ордера создают проскальзывание.
                         </p>
                         <p style="margin: 0; font-size: 0.85rem; color: #888; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: auto;">
-                            <strong>Как (Logic):</strong> Gnosis Safe Multicall объединяет операции (Buy+Mint+Sell) в одну атомарную транзакцию. TWAP/Iceberg алгоритмы дробят крупные ордера.
+                            <strong>Logic:</strong> Gnosis Safe Multicall, TWAP/Iceberg, Risk-Guard Protection.
                         </p>
                     </div>
+                </div>
 
+                <!-- FULL FEATURE LIST -->
+                <div style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+                    <div style="font-family: var(--font-mono); font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 15px;">Full Arsenal</div>
+                    <div class="feature-grid">
+                        <div class="feature-chip"><div class="dot"></div>Cross-Venue Monitor</div>
+                        <div class="feature-chip"><div class="dot"></div>Synthetic Book</div>
+                        <div class="feature-chip"><div class="dot"></div>Vertical DOM</div>
+                        <div class="feature-chip"><div class="dot"></div>Correlation Matrix</div>
+                        <div class="feature-chip"><div class="dot"></div>Semantic Arb (NLP)</div>
+                        <div class="feature-chip"><div class="dot"></div>Algo Execution Suite</div>
+                        <div class="feature-chip"><div class="dot"></div>NegRisk Sniper</div>
+                        <div class="feature-chip"><div class="dot"></div>Whale Watcher</div>
+                        <div class="feature-chip"><div class="dot"></div>Grid Market Maker</div>
+                        <div class="feature-chip"><div class="dot"></div>Catalyst Feed</div>
+                        
+                        <!-- NEW FEATURES -->
+                        <div class="feature-chip new"><div class="dot"></div>Risk-Guard (Kill Switch)</div>
+                        <div class="feature-chip new"><div class="dot"></div>Gemini Guidance AI</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -525,13 +585,17 @@
                     </div>
                 </div>
 
-                <!-- Module H: Risk Manager -->
+                <!-- Module H: Risk Manager & Risk-Guard -->
                 <div class="module-card">
                     <div class="module-header">
                         <span class="module-title">H. Portfolio Risk Manager</span>
                         <span class="module-tag" style="background: #444; color: #fff;">Safety</span>
                     </div>
                     <p>Анализ рисков портфеля в реальном времени. PnL симуляция и алерты.</p>
+                    <div class="info-block" style="border-left: 2px solid var(--accent-purple); padding-left: 10px; background: rgba(189,0,255,0.05); padding: 8px;">
+                        <span class="info-subtitle" style="color: var(--accent-purple);">NEW: Risk-Guard Protocol</span>
+                        Active Kill-Switch. Автоматическая продажа позиций при просадке >5% за 1 минуту (Fat Finger protection).
+                    </div>
                     <div class="terminal-view">
                         <div style="margin-bottom: 10px;">
                             <div style="display:flex; justify-content: space-between; font-size: 0.75rem; color: #aaa;">
@@ -545,7 +609,24 @@
                         </div>
                         <div style="font-size: 0.75rem;">
                             <span class="val-orange">⚠ ALERT:</span> Single outcome > 30% NAV.<br>
-                            <span class="val-blue">SIMULATION:</span> If NO wins, PnL = <span class="val-red">-$12,400</span>.
+                            <span class="val-purple">⚡ RISK-GUARD:</span> ACTIVE MONITORING...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW: Gemini Guidance Module -->
+                <div class="module-card col-full">
+                    <div class="module-header">
+                        <span class="module-title">Gemini Guidance AI</span>
+                        <span class="module-tag" style="background: linear-gradient(135deg, #1b73e8 0%, #d500f9 100%); color: #fff;">Copilot</span>
+                    </div>
+                    <p>Интегрированный ИИ-ассистент. Анализирует рынок, объясняет аномалии в стакане и предлагает стратегии на основе исторических данных.</p>
+                    <div class="terminal-view">
+                        <div style="color: #bbb; font-size: 0.8rem; margin-bottom: 10px;">> <span style="color: #fff;">@AquilaAI</span> Why is the spread widening on BTC > 100k?</div>
+                        <div style="border-left: 2px solid #d500f9; padding-left: 10px; color: #ddd; font-size: 0.8rem;">
+                            Analysis detected <strong>Whale Activity</strong> on the Sell side (150k NO wall appeared).<br>
+                            Simultaneously, Binance Spot volume dropped. This divergence often precedes a price correction.<br><br>
+                            <span style="color: var(--accent-blue);">Recommendation:</span> Consider placing bids at 0.38 (Support Level).
                         </div>
                     </div>
                 </div>
@@ -676,7 +757,10 @@
                     <div class="arch-blocks">
                         <div class="arch-block"><span class="lang-badge bg-rust">Rust</span> Tx Signer</div>
                         <div class="arch-block"><span class="lang-badge bg-c">C/C++</span> Low-level Order Dispatcher</div>
-                        <div class="arch-block"><span class="lang-badge bg-ts">Tauri</span> UI Interface</div>
+                        <div class="arch-block" style="min-width: 250px;">
+                            <span class="lang-badge bg-ts">React + Zustand</span>
+                            <span>UI (Canvas/WebGL)</span>
+                        </div>
                     </div>
                 </div>
             </div>
