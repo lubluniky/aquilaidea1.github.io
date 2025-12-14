@@ -655,15 +655,16 @@
             <h2>05. System Architecture</h2>
             <div class="arch-flow">
                 <div class="arch-layer">
-                    <h4>Layer 1: Data Ingestion</h4>
+                    <h4>Layer 1: Data Ingestion (The Ears)</h4>
                     <div class="arch-blocks">
                         <div class="arch-block"><span class="lang-badge bg-rust">Rust</span> Clob Websocket</div>
                         <div class="arch-block"><span class="lang-badge bg-rust">Rust</span> RPC Ingestor</div>
+                        <div class="arch-block"><span class="lang-badge bg-c">C/C++</span> Raw Sockets / DPDK</div>
                     </div>
                 </div>
                 <div class="arrow-down">↓</div>
                 <div class="arch-layer" style="border-color: var(--accent-blue);">
-                    <h4>Layer 2: Strategy Engine</h4>
+                    <h4>Layer 2: Strategy Engine (The Brain)</h4>
                     <div class="arch-blocks">
                         <div class="arch-block"><span class="lang-badge bg-rust">Rust</span> Arb Calc</div>
                         <div class="arch-block"><span class="lang-badge bg-rust">Rust</span> Risk Manager</div>
@@ -671,9 +672,10 @@
                 </div>
                 <div class="arrow-down">↓</div>
                 <div class="arch-layer">
-                    <h4>Layer 3: Execution</h4>
+                    <h4>Layer 3: Execution (The Hands)</h4>
                     <div class="arch-blocks">
                         <div class="arch-block"><span class="lang-badge bg-rust">Rust</span> Tx Signer</div>
+                        <div class="arch-block"><span class="lang-badge bg-c">C/C++</span> Low-level Order Dispatcher</div>
                         <div class="arch-block"><span class="lang-badge bg-ts">Tauri</span> UI Interface</div>
                     </div>
                 </div>
